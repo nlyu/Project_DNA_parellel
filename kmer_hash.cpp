@@ -72,6 +72,7 @@ int main(int argc, char **argv) {
   //
   // Building local hashmap and start nodes array.
   //
+  upcxx::atomic_domain<int> ad({upcxx::atomic_op::fetch_add});
   auto start = std::chrono::high_resolution_clock::now();
 
   std::vector <kmer_pair> start_nodes;
@@ -115,6 +116,7 @@ int main(int argc, char **argv) {
 
   // Measure time of buildinghash table.
   upcxx::barrier();
+  ad.destroy();
   double insert_time = std::chrono::duration <double> (end_insert - start).count();
   if (run_type != "test") {
     BUtil::print("Finished inserting in %lf\n", insert_time);
