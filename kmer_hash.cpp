@@ -17,13 +17,7 @@
 int main(int argc, char **argv) {
   upcxx::init();
 
-  // TODO: remove this, when you start writing
   // parallel implementation.
-  // if (upcxx::rank_n() > 1) {
-  //   throw std::runtime_error("Error: parallel implementation not started yet!"
-  //     " (remove this when you start working.)");
-  // }
-
   if (argc < 2) {
     BUtil::print("usage: srun -N nodes -n ranks ./kmer_hash kmer_file [verbose|test]\n");
     upcxx::finalize();
@@ -52,16 +46,8 @@ int main(int argc, char **argv) {
 
   size_t nprocs = upcxx::rank_n();
   size_t my_rank = upcxx::rank_me();
-  // hash_table_size = (hash_table_size + nprocs - 1)/nprocs;
 
   HashMap hashmap(hash_table_size);
-
-  // Build global pointer for data and used.
-
-  if (run_type == "verbose") {
-    BUtil::print("Initializing hash table of size %d for %d kmers.\n",
-      hash_table_size, n_kmers);
-  }
 
   std::vector <kmer_pair> kmers = read_kmers(kmer_fname, upcxx::rank_n(), upcxx::rank_me());
 
@@ -69,65 +55,43 @@ int main(int argc, char **argv) {
     BUtil::print("Finished reading kmers.\n");
   }
 
-  //
-  // Building local hashmap and start nodes array.
-  //
-  upcxx::atomic_domain<int> ad({upcxx::atomic_op::fetch_add});
+  //----------------------------------------------------------------------------------//
+  //------------build hashmap, insert all kmers into the hashmap with UPC-------------//
+  //----------------------------------------------------------------------------------//
+  upcxx::atomic_domain<int> ad({upcxx::atomic_op::fetch_add});  //Initializing atomic operation family, insertion of hashmap is dangerous! Need atomic operation.
   auto start = std::chrono::high_resolution_clock::now();
 
-  std::vector <kmer_pair> start_nodes;
+  std::vector <kmer_pair> start_nodes; //saves all start node for kmers, with F
 
+  //start building hashmap
   for (auto &kmer : kmers) {
-    bool success = hashmap.insert(kmer, ad);
+    bool success = hashmap.insert(kmer, ad); //insert kmers
     if (!success) {
       throw std::runtime_error("Error: HashMap is full!");
     }
 
     if (kmer.backwardExt() == 'F') {
-      start_nodes.push_back(kmer);
+      start_nodes.push_back(kmer);           //insert starting kmers with F
     }
   }
-  if (run_type == "verbose"){
-    upcxx::barrier();
-    int *lp = hashmap.used[upcxx::rank_me()].local();
-    int count =0;
-    for (int i=0;i<hashmap.my_size; i++){
-      if(*(lp + i) != lp[i]) printf("errordsfadfasd\n");
-      count+= lp[i]>0;
-    }
-    kmer_pair * kp = hashmap.data[upcxx::rank_me()].local();
-    printf("my size: %d\n", hashmap.my_size);
-    upcxx::barrier();
-    printf(" Wrote %d in rank %d\n", count, upcxx::rank_me());
-    upcxx::barrier();
-    printf("First 3 elements in rank %d: %s = %d, %s = %d, %s = %d\n", upcxx::rank_me(), kp[0].kmer_str().c_str(), lp[0], kp[1].kmer_str().c_str(), lp[1],  kp[2].kmer_str().c_str(), lp[2]);
 
-    // Write to file
-    std::ofstream fout("verbose_" + std::to_string(upcxx::rank_me()) + ".dat");
-    for (int i=0; i<hashmap.my_size; i++) {
-      fout << kp[i].kmer_str().c_str() << ' ' << std::to_string(lp[i]) << std::endl;
-    }
-    fout.close();
-  }
   auto end_insert = std::chrono::high_resolution_clock::now();
-
-  // Build global pointer for used.
-
-
-  // Measure time of buildinghash table.
   upcxx::barrier();
   ad.destroy();
+
   double insert_time = std::chrono::duration <double> (end_insert - start).count();
   if (run_type != "test") {
     BUtil::print("Finished inserting in %lf\n", insert_time);
   }
   upcxx::barrier();
 
-  //
-  // building contigs
-  //
+  //----------------------------------------------------------------------------------//
+  //------------build contig, connect kmers-------------------------------------------//
+  //----------------------------------------------------------------------------------//
   auto start_read = std::chrono::high_resolution_clock::now();
+  //list of contigs
   std::list <std::list <kmer_pair>> contigs;
+  //check all starting kmers
   for (const auto &start_kmer : start_nodes) {
     std::list <kmer_pair> contig;
     contig.push_back(start_kmer);
@@ -135,7 +99,6 @@ int main(int argc, char **argv) {
       kmer_pair kmer;
       bool success = hashmap.find(contig.back().next_kmer(), kmer);
       if (!success) {
-        printf("Doesn't find kmer str %s, end at kmer str %s \n", contig.back().next_kmer().get().c_str(), kmer.kmer_str().c_str());
         throw std::runtime_error("Error: k-mer not found in hashmap.");
       }
       contig.push_back(kmer);
