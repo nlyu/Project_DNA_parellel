@@ -14,6 +14,8 @@
 
 #include "butil.hpp"
 
+
+
 int main(int argc, char **argv) {
   upcxx::init();
 
@@ -77,7 +79,7 @@ int main(int argc, char **argv) {
 
   auto end_insert = std::chrono::high_resolution_clock::now();
   upcxx::barrier();
-  ad.destroy();
+  ad.destroy(); //clean the atomic operation
 
   double insert_time = std::chrono::duration <double> (end_insert - start).count();
   if (run_type != "test") {
