@@ -9,3 +9,24 @@ do
         echo 'n = ' $value
         srun -N 1 -n $value ./kmer_hash $dna_path$file
 done
+
+# comment the test if not needed
+
+echo '19-kmer small file test result'
+
+file=smaller/small.txt
+for value in "${core[@]}"
+do
+        echo 'n = ' $value
+        srun -N 1 -n $value ./kmer_hash $dna_path$file
+done
+
+
+echo '19-kmer tiny file test result'
+
+file=smaller/tiny.txt
+for value in "${core[@]}"
+do
+        echo 'n = ' $value
+        srun -N 1 -n $value ./kmer_hash $dna_path$file
+done
