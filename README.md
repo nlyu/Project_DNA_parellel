@@ -18,3 +18,5 @@ Request Node from Cori `salloc -N 1 -A mp309 -t 60:00 -q debug --qos=interactive
 Run with your DNA Data `srun -N 1 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/test.txt`
 
 Or `source mybenmark.sh`
+
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
