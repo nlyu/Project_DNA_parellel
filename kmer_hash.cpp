@@ -5,8 +5,8 @@
 #include <set>
 #include <numeric>
 #include <cstddef>
-#include <upcxx/upcxx.hpp>
 #include <chrono>
+#include <upcxx/upcxx.hpp>
 
 #include "kmer_t.hpp"
 #include "read_kmers.hpp"
