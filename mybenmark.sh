@@ -1,4 +1,4 @@
-echo '19-kmer smaller file test result'
+echo '------19-kmer small file test result-------'
 
 dna_path=/global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/
 core=(1 2 4 8 16 32)
@@ -12,9 +12,9 @@ done
 
 # comment the test if not needed
 
-echo '19-kmer small file test result'
+echo '------19-kmer little file test result------'
 
-file=smaller/small.txt
+file=smaller/little.txt
 for value in "${core[@]}"
 do
         echo 'n = ' $value
@@ -22,7 +22,7 @@ do
 done
 
 
-echo '19-kmer tiny file test result'
+echo '------19-kmer tiny file test result------'
 
 file=smaller/tiny.txt
 for value in "${core[@]}"
