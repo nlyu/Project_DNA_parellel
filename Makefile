@@ -1,6 +1,5 @@
 # source `modules.sh` before attempting to build or run.
-EXTRA_FLAGS=-std=c++11 -g
-CXX = CC -axMIC-AVX512,CORE-AVX2
+CXX = CC $(OPT)
 OPT = -O3
 
 # upcxx-meta PPFLAGS are really CFLAGS to be used during compilation
