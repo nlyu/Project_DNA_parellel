@@ -1,5 +1,5 @@
 # source `modules.sh` before attempting to build or run.
-CXX = CC $(OPT)
+CXX = CC 
 OPT = -O3
 
 # upcxx-meta PPFLAGS are really CFLAGS to be used during compilation
