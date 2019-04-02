@@ -1,6 +1,6 @@
 # source `modules.sh` before attempting to build or run.
-EXTRA_FLAGS=-std=c++11 -g
-CXX = CC
+CXX = CC 
+OPT = -O3
 
 # upcxx-meta PPFLAGS are really CFLAGS to be used during compilation
 # upcxx-meta LDFLAGS are really CFLAGS to be used during linking
