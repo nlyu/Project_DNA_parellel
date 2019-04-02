@@ -19,4 +19,8 @@ Run with your DNA Data `srun -N 1 -n 32 ./kmer_hash /global/project/projectdirs/
 
 Or `source mybenmark.sh`
 
+change environment variable for large dataset:
+export GASNET_MAX_SEGSIZE=5000MB/H
+export UPCXX_SEGMENT_MB=5000
+
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
