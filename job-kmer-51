@@ -18,11 +18,11 @@ srun -N 4 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-
 
 srun -N 8 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
 
-# srun -N 1 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
+srun -N 1 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
 
-# srun -N 2 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
+srun -N 2 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
 
-# srun -N 4 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
+srun -N 4 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
 
-# srun -N 8 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
+srun -N 8 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
 
