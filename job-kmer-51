@@ -2,7 +2,7 @@
 #SBATCH -C haswell
 #SBATCH -p debug      # change this option for non-debug runs
 #SBATCH -N 32         # you'll never need more than 1 node for the serial code
-#SBATCH -t 00:20:00   # adjust the amount of time as necessary
+#SBATCH -t 00:30:00   # adjust the amount of time as necessary
 #SBATCH -J kmer51 
 #SBATCH -o kmer51.%j.stdout
 #SBATCH -e kmer51.%j.error
@@ -10,19 +10,19 @@
 export GASNET_MAX_SEGSIZE=5000MB/H 
 export UPCXX_SEGMENT_MB=5000
 
-srun -N 1 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
+#srun -N 1 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
 
-srun -N 2 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
+#srun -N 2 -n 64 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
 
-srun -N 4 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
+#srun -N 4 -n 128 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
 
-srun -N 8 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
+#srun -N 8 -n 256 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/large.txt
 
-srun -N 1 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
+#srun -N 1 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
 
-srun -N 2 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
+#srun -N 2 -n 64 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
 
-srun -N 4 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
+#srun -N 4 -n 128 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
 
-srun -N 8 -n 32 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
+srun -N 8 -n 256 ./kmer_hash /global/project/projectdirs/mp309/cs267-spr2018/hw3-datasets/human-chr14-synthetic.txt
 

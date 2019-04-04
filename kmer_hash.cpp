@@ -64,6 +64,7 @@ int main(int argc, char **argv) {
   std::vector <kmer_pair> start_nodes; //saves all start node for kmers, with F
 
   //start building hashmap
+  // #pragma omp parallel
   for (auto &kmer : kmers) {
     bool success = hashmap.insert(kmer, ad); //insert kmers
     if (!success) {
@@ -92,6 +93,7 @@ int main(int argc, char **argv) {
   //list of contigs
   std::list <std::list <kmer_pair>> contigs;
   //check all starting kmers
+  //#pragma omp parallel
   for (const auto &start_kmer : start_nodes) {
     std::list <kmer_pair> contig;
     contig.push_back(start_kmer);
